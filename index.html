@@ -12,19 +12,19 @@
   <section id="screenLogin" class="screen active">
     <div class="login-container">
       <div class="brand">
-        <img src="aepLogo.png" alt="Logo da aplicação Achados e Perdidos" onerror="this.src='https://via.placeholder.com/48'" />
+        <img src="aepLogo.png" alt="Logo da aplicaÃ§Ã£o Achados e Perdidos" onerror="this.src='https://via.placeholder.com/48'" />
         <h1>Achados &amp; Perdidos</h1>
         <p id="subtitulo">Selecione o tipo de acesso</p>
       </div>
 
-      <div class="type-selector" aria-label="Seleção de tipo de acesso">
-        <button type="button" class="type-btn active" id="btnTipoUser">Usuário</button>
+      <div class="type-selector" aria-label="SeleÃ§Ã£o de tipo de acesso">
+        <button type="button" class="type-btn active" id="btnTipoUser">UsuÃ¡rio</button>
         <button type="button" class="type-btn" id="btnTipoAdmin">Administrador</button>
       </div>
 
       <form id="formUser" novalidate>
         <div class="form-group">
-          <label for="userEmail">E-mail ou Matrícula</label>
+          <label for="userEmail">E-mail ou MatrÃ­cula</label>
           <input type="text" id="userEmail" required placeholder="seu@email.com" />
         </div>
         <div class="form-group">
@@ -36,7 +36,7 @@
 
       <form id="formAdmin" novalidate style="display: none;">
         <div class="form-group">
-          <label for="adminUser">Usuário Administrador</label>
+          <label for="adminUser">UsuÃ¡rio Administrador</label>
           <input type="text" id="adminUser" required placeholder="admin" />
         </div>
         <div class="form-group">
@@ -51,10 +51,10 @@
   <section id="screenMural" class="screen">
     <header>
       <div class="logo-container">
-        <img src="aepLogo.png" alt="Logo da aplicação Achados e Perdidos" onerror="this.src='https://via.placeholder.com/40'" />
+        <img src="aepLogo.png" alt="Logo da aplicaÃ§Ã£o Achados e Perdidos" onerror="this.src='https://via.placeholder.com/40'" />
         <h1>Achados &amp; Perdidos</h1>
       </div>
-      <nav class="main-nav" aria-label="Navegação do mural">
+      <nav class="main-nav" aria-label="NavegaÃ§Ã£o do mural">
         <button type="button" class="nav-link" data-action="logout">Sair</button>
         <button type="button" class="nav-link active" data-action="mural" aria-current="page">Mural de Itens</button>
         <button type="button" class="nav-link" id="navAdminLink" data-action="admin" style="display: none;">Painel Admin</button>
@@ -63,15 +63,15 @@
 
     <main>
       <div class="user-profile">
-        <img src="avatar.jpg" alt="Avatar do usuário" onerror="this.src='https://via.placeholder.com/50'" />
+        <img src="avatar.jpg" alt="Avatar do usuÃ¡rio" onerror="this.src='https://via.placeholder.com/50'" />
         <div>
-          <h3 id="userNameDisplay">Usuário Visitante</h3>
+          <h3 id="userNameDisplay">UsuÃ¡rio Visitante</h3>
           <p>Consultando itens do sistema</p>
         </div>
       </div>
 
       <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Pesquisar por objeto, local ou descrição..." />
+        <input type="text" id="searchInput" placeholder="Pesquisar por objeto, local ou descriÃ§Ã£o..." />
       </div>
 
       <div class="items-grid" id="muralGrid"></div>
@@ -81,10 +81,10 @@
   <section id="screenAdmin" class="screen">
     <header>
       <div class="logo-container">
-        <img src="aepLogo.png" alt="Logo da aplicação Achados e Perdidos" onerror="this.src='https://via.placeholder.com/40'" />
+        <img src="aepLogo.png" alt="Logo da aplicaÃ§Ã£o Achados e Perdidos" onerror="this.src='https://via.placeholder.com/40'" />
         <h1>Achados &amp; Perdidos</h1>
       </div>
-      <nav class="main-nav" aria-label="Navegação do painel administrativo">
+      <nav class="main-nav" aria-label="NavegaÃ§Ã£o do painel administrativo">
         <button type="button" class="nav-link" data-action="logout">Sair</button>
         <button type="button" class="nav-link" data-action="mural">Mural de Itens</button>
         <button type="button" class="nav-link active" aria-current="page">Painel Admin</button>
@@ -97,11 +97,11 @@
           <h2>Cadastrar Item</h2>
           <form id="itemForm" novalidate>
             <div class="form-group">
-              <label for="titulo">Título do Objeto</label>
+              <label for="titulo">TÃ­tulo do Objeto</label>
               <input type="text" id="titulo" required placeholder="Ex: Carteira de Identidade" />
             </div>
             <div class="form-group">
-              <label for="status">Situação</label>
+              <label for="status">SituaÃ§Ã£o</label>
               <select id="status" required>
                 <option value="achado">Achado</option>
                 <option value="perdido">Perdido</option>
@@ -109,14 +109,14 @@
             </div>
             <div class="form-group">
               <label for="local">Local</label>
-              <input type="text" id="local" required placeholder="Ex: Auditório" />
+              <input type="text" id="local" required placeholder="Ex: AuditÃ³rio" />
             </div>
             <div class="form-group">
               <label for="data">Data</label>
               <input type="date" id="data" required />
             </div>
             <div class="form-group">
-              <label for="desc">Descrição</label>
+              <label for="desc">DescriÃ§Ã£o</label>
               <textarea id="desc" rows="3" placeholder="Detalhes do item..."></textarea>
             </div>
             <button type="submit" class="btn">Salvar Item</button>
@@ -129,10 +129,10 @@
             <table>
               <thead>
                 <tr>
-                  <th>Título</th>
+                  <th>TÃ­tulo</th>
                   <th>Status</th>
                   <th>Data</th>
-                  <th>Ação</th>
+                  <th>AÃ§Ã£o</th>
                 </tr>
               </thead>
               <tbody id="adminTableBody"></tbody>

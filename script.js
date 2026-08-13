@@ -25,19 +25,19 @@
       id: 2,
       titulo: 'Mochila Azul',
       status: 'perdido',
-      local: 'Biblioteca - 2∫ Andar',
+      local: 'Biblioteca - 2¬∫ Andar',
       data: '11/08/2026',
       img: 'https://via.placeholder.com/300x180?text=Mochila',
       desc: 'Mochila com cadernos e um estojo.'
     },
     {
       id: 3,
-      titulo: 'Garrafa TÈrmica',
+      titulo: 'Garrafa T√©rmica',
       status: 'achado',
-      local: 'PraÁa de AlimentaÁ„o',
+      local: 'Pra√ßa de Alimenta√ß√£o',
       data: '12/08/2026',
       img: 'https://via.placeholder.com/300x180?text=Garrafa',
-      desc: 'Garrafa tÈrmica met·lica cor prata.'
+      desc: 'Garrafa t√©rmica met√°lica cor prata.'
     }
   ];
 
@@ -163,7 +163,7 @@
 
     refs.subtitulo.textContent = tipo === 'user'
       ? 'Acesse o mural de objetos salvos'
-      : 'Painel restrito ‡ equipe de gest„o';
+      : 'Painel restrito √† equipe de gest√£o';
   }
 
   function irParaMural() {
@@ -179,7 +179,7 @@
 
   function irParaAdmin() {
     if (localStorage.getItem(STORAGE_KEYS.perfil) !== 'admin') {
-      mostrarMensagem('Acesso negado! Esta ·rea È exclusiva para administradores.', 'error');
+      mostrarMensagem('Acesso negado! Esta √°rea √© exclusiva para administradores.', 'error');
       return;
     }
 
@@ -191,7 +191,7 @@
     localStorage.removeItem(STORAGE_KEYS.usuarioAtivo);
     localStorage.removeItem(STORAGE_KEYS.perfil);
     mostrarTela('screenLogin');
-    mostrarMensagem('Sess„o encerrada.', 'success');
+    mostrarMensagem('Sess√£o encerrada.', 'success');
   }
 
   function loginUsuario(event) {
@@ -199,7 +199,7 @@
 
     const login = refs.userEmail.value.trim();
     if (!login) {
-      mostrarMensagem('Informe o e-mail ou matrÌcula.', 'error');
+      mostrarMensagem('Informe o e-mail ou matr√≠cula.', 'error');
       return;
     }
 
@@ -241,7 +241,7 @@
     };
 
     if (!novoItem.titulo || !novoItem.local || !novoItem.data) {
-      mostrarMensagem('Preencha tÌtulo, local e data antes de salvar.', 'error');
+      mostrarMensagem('Preencha t√≠tulo, local e data antes de salvar.', 'error');
       return;
     }
 
