@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Achados e Perdidos</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===================== TELA: LOGIN ===================== -->
+  <section id="screenLogin" class="screen active">
+    <div class="login-container">
+      <div class="brand">
+        <img src="aepLogo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/48'" />
+        <h1>Achados & Perdidos</h1>
+        <p id="subtitulo">Selecione o tipo de acesso</p>
+      </div>
+
+      <div class="type-selector">
+        <button class="type-btn active" id="btnTipoUser" onclick="selecionarTipo('user')">Usuário</button>
+        <button class="type-btn" id="btnTipoAdmin" onclick="selecionarTipo('admin')">🔒 Administrador</button>
+      </div>
+
+      <form id="formUser" onsubmit="loginUsuario(event)">
+        <div class="form-group">
+          <label>E-mail ou Matrícula</label>
+          <input type="text" id="userEmail" required placeholder="seu@email.com" />
+        </div>
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" id="userSenha" required placeholder="******" />
+        </div>
+        <button type="submit" class="btn-submit">Entrar no Mural</button>
+      </form>
+
+      <form id="formAdmin" onsubmit="loginAdmin(event)" style="display: none;">
+        <div class="form-group">
+          <label>Usuário Administrador</label>
+          <input type="text" id="adminUser" required placeholder="admin" />
+        </div>
+        <div class="form-group">
+          <label>Senha de Acesso</label>
+          <input type="password" id="adminSenha" required placeholder="******" />
+        </div>
+        <button type="submit" class="btn-submit btn-admin">Acessar Painel Admin</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===================== TELA: MURAL ===================== -->
+  <section id="screenMural" class="screen">
+    <header>
+      <div class="logo-container">
+        <img src="aepLogo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/40'" />
+        <h1 style="color:var(--primary); font-size: 1.25rem;">Achados & Perdidos</h1>
+      </div>
+      <nav>
+        <a onclick="sair()">Sair</a>
+        <a class="active">Mural de Itens</a>
+        <a id="navAdminLink" onclick="irParaAdmin()" style="display:none;">Painel Admin</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="user-profile">
+        <img src="avatar.jpg" alt="Avatar" onerror="this.src='https://via.placeholder.com/50'" />
+        <div>
+          <h3 id="userNameDisplay">Usuário Visitante</h3>
+          <p style="font-size:0.85rem; color: var(--text-muted);">Consultando itens do sistema</p>
+        </div>
+      </div>
+
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Pesquisar por objeto, local ou descrição..." onkeyup="filtrarItens()" />
+      </div>
+
+      <div class="items-grid" id="muralGrid">
+        <!-- Inserido dinamicamente via JS -->
+      </div>
+    </main>
+  </section>
+
+  <!-- ===================== TELA: ADMIN ===================== -->
+  <section id="screenAdmin" class="screen">
+    <header>
+      <div class="logo-container">
+        <img src="aepLogo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/40'" />
+        <h1 style="color: var(--primary); font-size: 1.25rem">Achados & Perdidos</h1>
+      </div>
+      <nav>
+        <a onclick="sair()">Sair</a>
+        <a onclick="irParaMural()">Mural de Itens</a>
+        <a class="active">Painel Admin</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="grid-admin">
+        <div class="card">
+          <h2>Cadastrar Item</h2>
+          <form id="itemForm" onsubmit="cadastrarItem(event)">
+            <div class="form-group">
+              <label for="titulo">Título do Objeto</label>
+              <input type="text" id="titulo" required placeholder="Ex: Carteira de Identidade" />
+            </div>
+            <div class="form-group">
+              <label for="status">Situação</label>
+              <select id="status" required>
+                <option value="achado">Achado</option>
+                <option value="perdido">Perdido</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="local">Local</label>
+              <input type="text" id="local" required placeholder="Ex: Auditório" />
+            </div>
+            <div class="form-group">
+              <label for="data">Data</label>
+              <input type="date" id="data" required />
+            </div>
+            <div class="form-group">
+              <label for="desc">Descrição</label>
+              <textarea id="desc" rows="3" placeholder="Detalhes do item..."></textarea>
+            </div>
+            <button type="submit" class="btn">Salvar Item</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Itens Recém-Cadastrados</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Status</th>
+                <th>Data</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody id="adminTableBody">
+              <!-- Preenchido via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
