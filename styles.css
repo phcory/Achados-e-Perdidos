@@ -13,6 +13,8 @@
   --badge-achado: #10b981; 
   --success: #16a34a; 
   --warning: #f59e0b; 
+  --info: #6366f1;
+  --neutro: #475569;
 }
 
 * { 
@@ -180,11 +182,21 @@ textarea:focus-visible {
   border-color: var(--primary); 
 }
 
+.form-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
 .btn-submit, 
 .btn, 
 .btn-delete,
 .btn-status,
-.btn-qr { 
+.btn-qr,
+.btn-devolver,
+.btn-arquivar,
+.btn-restaurar,
+.btn-mini { 
   border: none; 
   font-weight: 600; 
   cursor: pointer; 
@@ -205,7 +217,11 @@ textarea:focus-visible {
 .btn:hover, 
 .btn-delete:hover,
 .btn-status:hover,
-.btn-qr:hover { 
+.btn-qr:hover,
+.btn-devolver:hover,
+.btn-arquivar:hover,
+.btn-restaurar:hover,
+.btn-mini:hover { 
   filter: brightness(0.97); 
 }
 
@@ -291,18 +307,29 @@ main {
   color: var(--text-muted); 
 }
 
+/* RF03 - barra de busca + filtro de categoria */
 .search-bar { 
   margin-bottom: 2rem; 
   display: flex; 
   gap: 1rem; 
+  flex-wrap: wrap;
 }
 
 .search-bar input { 
   flex: 1; 
+  min-width: 220px;
   padding: 0.75rem; 
   border: 1px solid var(--border); 
   border-radius: 6px; 
   outline: none; 
+}
+
+.search-bar select { 
+  padding: 0.75rem; 
+  border: 1px solid var(--border); 
+  border-radius: 6px; 
+  background: #fff;
+  min-width: 180px;
 }
 
 .items-grid { 
@@ -339,6 +366,8 @@ main {
   justify-content: space-between; 
   align-items: center; 
   margin-bottom: 0.5rem; 
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
 .badge { 
@@ -355,6 +384,17 @@ main {
 
 .badge.achado { 
   background: var(--badge-achado); 
+}
+
+/* RF11 - etiqueta de categoria no card do mural */
+.categoria-tag {
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: #f1f5f9;
+  border: 1px solid var(--border);
 }
 
 .item-title { 
@@ -383,6 +423,14 @@ main {
   gap: 2rem; 
 }
 
+/* Seções administrativas extras: categorias, arquivados, log, relatórios */
+.admin-extra-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
 .card { 
   background: var(--card-bg); 
   border: 1px solid var(--border); 
@@ -395,6 +443,13 @@ main {
   margin-bottom: 1rem; 
   border-bottom: 2px solid var(--primary); 
   padding-bottom: 0.5rem; 
+}
+
+.card-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
 }
 
 .btn { 
@@ -442,16 +497,8 @@ th {
 
 
 /* =========================================================
-   RF14 - BOTÃO DE QR CODE
+   RF08 / RF12 / RF16 - AÇÕES NA TABELA DE ITENS ATIVOS
    ========================================================= */
-
-.btn-qr {
-  background: var(--primary);
-  color: #fff;
-  padding: 0.35rem 0.7rem;
-  border-radius: 4px;
-  margin: 0.2rem;
-}
 
 .btn-status {
   background: var(--warning);
@@ -461,186 +508,253 @@ th {
   margin: 0.2rem;
 }
 
+.btn-devolver {
+  background: var(--info);
+  color: #fff;
+  padding: 0.35rem 0.7rem;
+  border-radius: 4px;
+  margin: 0.2rem;
+}
+
+.btn-arquivar {
+  background: var(--neutro);
+  color: #fff;
+  padding: 0.35rem 0.7rem;
+  border-radius: 4px;
+  margin: 0.2rem;
+}
+
+.btn-restaurar {
+  background: var(--success);
+  color: #fff;
+  padding: 0.35rem 0.7rem;
+  border-radius: 4px;
+}
+
 
 /* =========================================================
-   RF14 - MODAL DA ETIQUETA
+   RF11 - GESTÃO DE CATEGORIAS
    ========================================================= */
 
-.qr-modal-overlay {
+.categoria-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.categoria-form input {
+  flex: 1;
+  padding: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.categoria-form button {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.categoria-list {
+  list-style: none;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.categoria-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #f8fafc;
+}
+
+.categoria-item span:first-child {
+  font-size: 0.9rem;
+}
+
+.categoria-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.btn-mini {
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  color: #fff;
+}
+
+.btn-mini.editar { background: var(--primary); }
+.btn-mini.remover { background: var(--danger); }
+
+
+/* =========================================================
+   RF13 - LOG DE AUDITORIA
+   ========================================================= */
+
+.log-wrapper {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+
+/* =========================================================
+   RF15 - RELATÓRIOS DE INVENTÁRIO
+   ========================================================= */
+
+.metricas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.metrica-item {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.metrica-item strong {
+  display: block;
+  font-size: 1.4rem;
+  color: var(--primary);
+}
+
+.metrica-item span {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.relatorio-botoes {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.relatorio-botoes button {
+  flex: 1;
+  min-width: 160px;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+}
+
+.btn-csv { background: var(--success); }
+.btn-pdf { background: var(--admin-color); }
+
+
+/* =========================================================
+   RF12 / RF16 - MODAIS (Devolução e Arquivamento)
+   ========================================================= */
+
+.modal-overlay {
   position: fixed;
   inset: 0;
   z-index: 2000;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   padding: 1rem;
-
   background: rgba(15, 23, 42, 0.65);
 }
 
-.qr-modal {
-  position: relative;
+.modal-overlay.hidden {
+  display: none;
+}
 
+.modal-box {
+  position: relative;
   width: 100%;
   max-width: 420px;
-
   background: #ffffff;
-
   border-radius: 12px;
-
   padding: 2rem;
-
-  box-shadow:
-    0 20px 50px rgba(15, 23, 42, 0.25);
-
-  text-align: center;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
 }
 
-.qr-modal-close {
-  position: absolute;
-
-  top: 0.75rem;
-  right: 0.75rem;
-
-  width: 32px;
-  height: 32px;
-
-  border: none;
-  border-radius: 50%;
-
-  background: #f1f5f9;
-
-  color: #475569;
-
-  font-size: 1.5rem;
-  line-height: 1;
-
-  cursor: pointer;
-}
-
-.qr-modal-close:hover {
-  background: #e2e8f0;
-}
-
-
-/* =========================================================
-   RF14 - ETIQUETA
-   ========================================================= */
-
-.etiqueta-qr {
-  width: 100%;
-
-  padding: 1.5rem;
-
-  border: 2px dashed var(--border);
-
-  border-radius: 10px;
-
-  background: #ffffff;
-
-  text-align: center;
-}
-
-.etiqueta-qr h2 {
+.modal-box h3 {
   color: var(--primary);
-
-  font-size: 1.3rem;
-
-  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
 }
 
-.qr-etiqueta-titulo {
-  color: var(--text-muted);
-
+.modal-box .item-em-acao {
   font-size: 0.85rem;
-
+  color: var(--text-muted);
   margin-bottom: 1rem;
 }
 
-#qrCodeContainer {
-  display: flex;
-
-  justify-content: center;
-  align-items: center;
-
-  min-height: 180px;
-
-  margin: 0 auto 1rem;
-}
-
-#qrCodeContainer img,
-#qrCodeContainer canvas {
-  display: block;
-
-  width: 180px !important;
-  height: 180px !important;
-
-  margin: 0 auto;
-}
-
-#qrCodigoTexto {
-  display: block;
-
-  color: var(--text);
-
-  font-size: 1.1rem;
-
-  letter-spacing: 1px;
-
-  margin-top: 0.5rem;
-
-  word-break: break-all;
-}
-
-.qr-instrucao {
-  color: var(--text-muted);
-
-  font-size: 0.75rem;
-
-  margin-top: 0.4rem;
-}
-
-#qrItemNome {
-  color: var(--text);
-
-  font-size: 0.9rem;
-
-  font-weight: 600;
-
-  margin-top: 0.75rem;
-}
-
-
-/* =========================================================
-   RF14 - BOTÃO IMPRIMIR
-   ========================================================= */
-
-.btn-imprimir-qr {
-  width: 100%;
-
-  margin-top: 1rem;
-
-  padding: 0.8rem;
-
+.modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 32px;
+  height: 32px;
   border: none;
-
-  border-radius: 6px;
-
-  background: var(--primary);
-
-  color: #ffffff;
-
-  font-size: 0.95rem;
-
-  font-weight: 600;
-
+  border-radius: 50%;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 1.5rem;
+  line-height: 1;
   cursor: pointer;
 }
 
-.btn-imprimir-qr:hover {
-  background: var(--primary-hover);
+.modal-close:hover {
+  background: #e2e8f0;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal-actions .btn-cancelar {
+  background: #f1f5f9;
+  color: var(--text-muted);
+}
+
+.modal-actions .btn-confirmar-doado {
+  background: var(--success);
+  color: #fff;
+}
+
+.modal-actions .btn-confirmar-descartado {
+  background: var(--danger);
+  color: #fff;
+}
+
+.aviso-lgpd {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
 }
 
 
@@ -663,12 +777,12 @@ th {
     flex-wrap: wrap;
   }
 
-  .qr-modal {
+  .modal-box {
     max-width: 95%;
     padding: 1.25rem;
   }
 
-  .etiqueta-qr {
-    padding: 1rem;
+  .relatorio-botoes button {
+    min-width: 100%;
   }
 }

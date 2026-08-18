@@ -226,14 +226,22 @@
         </div>
 
 
-        <!-- PESQUISA -->
+        <!-- RF03 - PESQUISA E FILTRO POR CATEGORIA -->
         <div class="search-bar">
 
           <input
             type="text"
             id="searchInput"
             placeholder="Pesquisar por objeto, local ou descrição..."
+            aria-label="Pesquisar itens"
           />
+
+          <select
+            id="categoriaFiltro"
+            aria-label="Filtrar por categoria"
+          >
+            <option value="">Todas as categorias</option>
+          </select>
 
         </div>
 
@@ -369,10 +377,32 @@
               </div>
 
 
+              <!-- RF11 - Categoria do item -->
+              <div class="form-group">
+
+                <label for="categoria">
+                  Categoria
+                </label>
+
+                <select
+                  id="categoria"
+                  required
+                >
+                  <!-- Preenchido via JS a partir da lista de categorias -->
+                </select>
+
+                <p class="form-hint">
+                  Não achou a categoria? Cadastre uma nova no card
+                  "Gerenciar Categorias", mais abaixo.
+                </p>
+
+              </div>
+
+
               <div class="form-group">
 
                 <label for="local">
-                  Local
+                  Local onde foi encontrado
                 </label>
 
                 <input
@@ -381,6 +411,26 @@
                   required
                   placeholder="Ex: Auditório"
                 />
+
+              </div>
+
+
+              <!-- RF09 - Local de armazenamento físico -->
+              <div class="form-group">
+
+                <label for="localArmazenamento">
+                  Local de Armazenamento (guarda física)
+                </label>
+
+                <input
+                  type="text"
+                  id="localArmazenamento"
+                  placeholder="Ex: Prateleira A3 / Armário 2"
+                />
+
+                <p class="form-hint">
+                  Informação interna: só aparece no painel admin, não no mural público.
+                </p>
 
               </div>
 
@@ -444,13 +494,18 @@
 
 
           <!-- =====================
-               TABELA ADMIN
+               TABELA ADMIN (itens ativos)
           ====================== -->
           <div class="card">
 
             <h2>
-              Itens Recentemente Cadastrados
+              Itens Ativos
             </h2>
+
+            <p class="card-subtitle">
+              Itens em acervo (achados ou perdidos). Use "Arquivar" para
+              retirar um item do acervo sem apagar seu histórico.
+            </p>
 
             <div class="table-wrapper">
 
@@ -460,25 +515,12 @@
 
                   <tr>
 
-                    <th>
-                      Título
-                    </th>
-
-                    <th>
-                      Status
-                    </th>
-
-                    <th>
-                      Local
-                    </th>
-
-                    <th>
-                      Data
-                    </th>
-
-                    <th>
-                      Ação
-                    </th>
+                    <th>Título</th>
+                    <th>Categoria</th>
+                    <th>Status</th>
+                    <th>Local</th>
+                    <th>Data</th>
+                    <th>Ação</th>
 
                   </tr>
 
@@ -496,19 +538,196 @@
 
         </div>
 
+
+        <!-- =====================
+             SEÇÕES ADMINISTRATIVAS EXTRAS
+        ====================== -->
+        <div class="admin-extra-sections">
+
+          <!-- RF11 - GESTÃO DE CATEGORIAS -->
+          <div class="card">
+
+            <h2>Gerenciar Categorias</h2>
+
+            <form id="formCategoria" novalidate class="categoria-form">
+              <input
+                type="text"
+                id="novaCategoria"
+                placeholder="Nome da nova categoria"
+                aria-label="Nome da nova categoria"
+                required
+              />
+              <button type="submit">Adicionar</button>
+            </form>
+
+            <ul id="categoriasLista" class="categoria-list"></ul>
+
+          </div>
+
+
+          <!-- RF16 - ITENS ARQUIVADOS -->
+          <div class="card">
+
+            <h2>Itens Arquivados</h2>
+
+            <p class="card-subtitle">
+              Itens devolvidos, doados ou descartados. Ficam fora do mural
+              público, mas continuam no histórico do sistema.
+            </p>
+
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Título</th>
+                    <th>Categoria</th>
+                    <th>Motivo</th>
+                    <th>Data</th>
+                    <th>Ação</th>
+                  </tr>
+                </thead>
+                <tbody id="arquivadosTableBody"></tbody>
+              </table>
+            </div>
+
+          </div>
+
+
+          <!-- RF13 - LOG DE AUDITORIA -->
+          <div class="card">
+
+            <h2>Histórico / Log de Auditoria</h2>
+
+            <p class="card-subtitle">
+              Registro de data, hora e autor de cada alteração feita nos itens.
+            </p>
+
+            <div class="table-wrapper log-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data/Hora</th>
+                    <th>Autor</th>
+                    <th>Ação</th>
+                    <th>Item</th>
+                    <th>Detalhes</th>
+                  </tr>
+                </thead>
+                <tbody id="logTableBody"></tbody>
+              </table>
+            </div>
+
+          </div>
+
+
+          <!-- RF15 - RELATÓRIOS DE INVENTÁRIO -->
+          <div class="card">
+
+            <h2>Relatórios de Inventário</h2>
+
+            <div id="relatorioResumo" class="metricas-grid"></div>
+
+            <div class="relatorio-botoes">
+              <button type="button" id="btnBaixarCSV" class="btn-csv">
+                Baixar Relatório (CSV)
+              </button>
+              <button type="button" id="btnBaixarPDF" class="btn-pdf">
+                Baixar Relatório (PDF)
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
       </main>
 
     </section>
 
 
+    <!-- =========================
+         RF12 - MODAL: TERMO DE DEVOLUÇÃO
+    ========================== -->
+    <div id="modalDevolucao" class="modal-overlay hidden">
+      <div class="modal-box">
+
+        <button type="button" class="modal-close" id="btnFecharDevolucao" aria-label="Fechar">&times;</button>
+
+        <h3>Registrar Devolução</h3>
+        <p class="item-em-acao">Item: <strong id="devItemTitulo"></strong></p>
+
+        <form id="formDevolucao" novalidate>
+
+          <div class="form-group">
+            <label for="devNome">Nome do Proprietário</label>
+            <input type="text" id="devNome" required placeholder="Nome completo" />
+          </div>
+
+          <div class="form-group">
+            <label for="devDocumento">Documento (CPF/RG)</label>
+            <input type="text" id="devDocumento" required placeholder="Ex: 000.000.000-00" />
+          </div>
+
+          <div class="form-group">
+            <label for="devTelefone">Telefone</label>
+            <input type="text" id="devTelefone" required placeholder="Ex: (11) 99999-9999" />
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn-cancelar" id="btnCancelarDevolucao">Cancelar</button>
+            <button type="submit" class="btn-submit">Confirmar Devolução</button>
+          </div>
+
+        </form>
+
+        <p class="aviso-lgpd">
+          Estes dados pessoais ficam restritos à área administrativa e não
+          são exibidos no mural público, em conformidade com a LGPD.
+        </p>
+
+      </div>
+    </div>
+
+
+    <!-- =========================
+         RF16 - MODAL: ARQUIVAR ITEM
+    ========================== -->
+    <div id="modalArquivar" class="modal-overlay hidden">
+      <div class="modal-box">
+
+        <button type="button" class="modal-close" id="btnFecharArquivar" aria-label="Fechar">&times;</button>
+
+        <h3>Arquivar Item</h3>
+        <p class="item-em-acao">Item: <strong id="arqItemTitulo"></strong></p>
+
+        <p class="card-subtitle">
+          Escolha o motivo do arquivamento. O item sai do mural e da lista
+          ativa, mas continua registrado no histórico.
+        </p>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-confirmar-doado" id="btnConfirmarDoado">Doado</button>
+          <button type="button" class="btn-confirmar-descartado" id="btnConfirmarDescartado">Descartado</button>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancelar" id="btnCancelarArquivar">Cancelar</button>
+        </div>
+
+      </div>
+    </div>
+
+
     <!--
       BIBLIOTECA PARA GERAR QR CODE.
-      O JavaScript vai usar QRCode
-      para criar automaticamente
-      um QR Code para cada item.
     -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+    ></script>
+
+    <!-- RF15 - BIBLIOTECA PARA GERAR PDF -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
     ></script>
 
     <!-- SEU JAVASCRIPT -->
