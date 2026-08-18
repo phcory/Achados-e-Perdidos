@@ -13,6 +13,9 @@
 
   const itensIniciais = [];
 
+  const IMAGEM_FALLBACK =
+    'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="180" viewBox="0 0 300 180"%3E%3Crect width="300" height="180" fill="%23e2e8f0"/%3E%3Ctext x="150" y="95" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" fill="%2364758b"%3ESem imagem%3C/text%3E%3C/svg%3E';
+
   const state = {
     tipoAtual: 'user'
   };
@@ -63,6 +66,17 @@
     });
   }
 
+  function configurarImagem(img) {
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = IMAGEM_FALLBACK;
+    };
+
+    if (img.complete && img.naturalWidth === 0) {
+      img.onerror();
+    }
+  }
+
   function obterItens() {
     const cadastrados =
       JSON.parse(
@@ -88,10 +102,7 @@
       const img = document.createElement('img');
       img.src = item.img;
       img.alt = item.titulo;
-      img.onerror = () => {
-        img.src =
-          'https://via.placeholder.com/300x180?text=Sem+Imagem';
-      };
+      configurarImagem(img);
 
       const content = document.createElement('div');
       content.className = 'item-content';
@@ -381,8 +392,7 @@
     const arquivo =
       refs.imagem.files[0];
 
-    let imagemBase64 =
-      'https://via.placeholder.com/300x180?text=Item';
+    let imagemBase64 = IMAGEM_FALLBACK;
 
     if (arquivo) {
       try {
@@ -690,6 +700,8 @@
   }
 
   function bindEvents() {
+    document.querySelectorAll('img').forEach(configurarImagem);
+
     refs.btnTipoUser.addEventListener(
       'click',
       () => selecionarTipo('user')
