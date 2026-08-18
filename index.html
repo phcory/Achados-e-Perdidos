@@ -1,148 +1,528 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Achados e Perdidos</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <div id="appMessage" class="app-message" aria-live="polite"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Achados e Perdidos</title>
 
-  <section id="screenLogin" class="screen active">
-    <div class="login-container">
-      <div class="brand">
-        <img src="aepLogo.png" alt="Logo da aplicação Achados e Perdidos" onerror="this.src='https://via.placeholder.com/48'" />
-        <h1>Achados &amp; Perdidos</h1>
-        <p id="subtitulo">Selecione o tipo de acesso</p>
-      </div>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-      <div class="type-selector" aria-label="Seleção de tipo de acesso">
-        <button type="button" class="type-btn active" id="btnTipoUser">Usuário</button>
-        <button type="button" class="type-btn" id="btnTipoAdmin">Administrador</button>
-      </div>
+  <body>
 
-      <form id="formUser" novalidate>
-        <div class="form-group">
-          <label for="userEmail">E-mail ou Matrícula</label>
-          <input type="text" id="userEmail" required placeholder="seu@email.com" />
-        </div>
-        <div class="form-group">
-          <label for="userSenha">Senha</label>
-          <input type="password" id="userSenha" required placeholder="******" />
-        </div>
-        <button type="submit" class="btn-submit">Entrar no Mural</button>
-      </form>
+    <div id="appMessage" class="app-message" aria-live="polite"></div>
 
-      <form id="formAdmin" novalidate style="display: none;">
-        <div class="form-group">
-          <label for="adminUser">Usuário Administrador</label>
-          <input type="text" id="adminUser" required placeholder="admin" />
-        </div>
-        <div class="form-group">
-          <label for="adminSenha">Senha de Acesso</label>
-          <input type="password" id="adminSenha" required placeholder="******" />
-        </div>
-        <button type="submit" class="btn-submit btn-admin">Acessar Painel Admin</button>
-      </form>
-    </div>
-  </section>
+    <!-- =========================
+         TELA DE LOGIN
+    ========================== -->
+    <section id="screenLogin" class="screen active">
 
-  <section id="screenMural" class="screen">
-    <header>
-      <div class="logo-container">
-        <img src="aepLogo.png" alt="Logo da aplicação Achados e Perdidos" onerror="this.src='https://via.placeholder.com/40'" />
-        <h1>Achados &amp; Perdidos</h1>
-      </div>
-      <nav class="main-nav" aria-label="Navegação do mural">
-        <button type="button" class="nav-link" data-action="logout">Sair</button>
-        <button type="button" class="nav-link active" data-action="mural" aria-current="page">Mural de Itens</button>
-        <button type="button" class="nav-link" id="navAdminLink" data-action="admin" style="display: none;">Painel Admin</button>
-      </nav>
-    </header>
+      <div class="login-container">
 
-    <main>
-      <div class="user-profile">
-        <img src="avatar.jpg" alt="Avatar do usuário" onerror="this.src='https://via.placeholder.com/50'" />
-        <div>
-          <h3 id="userNameDisplay">Usuário Visitante</h3>
-          <p>Consultando itens do sistema</p>
-        </div>
-      </div>
+        <div class="brand">
 
-      <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Pesquisar por objeto, local ou descrição..." />
-      </div>
+          <img
+            src="aepLogo.png"
+            alt="Logo da aplicação Achados e Perdidos"
+            onerror="this.src='https://via.placeholder.com/48'"
+          />
 
-      <div class="items-grid" id="muralGrid"></div>
-    </main>
-  </section>
+          <h1>Achados &amp; Perdidos</h1>
 
-  <section id="screenAdmin" class="screen">
-    <header>
-      <div class="logo-container">
-        <img src="aepLogo.png" alt="Logo da aplicação Achados e Perdidos" onerror="this.src='https://via.placeholder.com/40'" />
-        <h1>Achados &amp; Perdidos</h1>
-      </div>
-      <nav class="main-nav" aria-label="Navegação do painel administrativo">
-        <button type="button" class="nav-link" data-action="logout">Sair</button>
-        <button type="button" class="nav-link" data-action="mural">Mural de Itens</button>
-        <button type="button" class="nav-link active" aria-current="page">Painel Admin</button>
-      </nav>
-    </header>
+          <p id="subtitulo">
+            Selecione o tipo de acesso
+          </p>
 
-    <main>
-      <div class="grid-admin">
-        <div class="card">
-          <h2>Cadastrar Item</h2>
-          <form id="itemForm" novalidate>
-            <div class="form-group">
-              <label for="titulo">Título do Objeto</label>
-              <input type="text" id="titulo" required placeholder="Ex: Carteira de Identidade" />
-            </div>
-            <div class="form-group">
-              <label for="status">Situação</label>
-              <select id="status" required>
-                <option value="achado">Achado</option>
-                <option value="perdido">Perdido</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="local">Local</label>
-              <input type="text" id="local" required placeholder="Ex: Auditório" />
-            </div>
-            <div class="form-group">
-              <label for="data">Data</label>
-              <input type="date" id="data" required />
-            </div>
-            <div class="form-group">
-              <label for="desc">Descrição</label>
-              <textarea id="desc" rows="3" placeholder="Detalhes do item..."></textarea>
-            </div>
-            <button type="submit" class="btn">Salvar Item</button>
-          </form>
         </div>
 
-        <div class="card">
-          <h2>Itens Recentemente Cadastrados</h2>
-          <div class="table-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th>Título</th>
-                  <th>Status</th>
-                  <th>Data</th>
-                  <th>Ação</th>
-                </tr>
-              </thead>
-              <tbody id="adminTableBody"></tbody>
-            </table>
+        <div
+          class="type-selector"
+          aria-label="Seleção de tipo de acesso"
+        >
+
+          <button
+            type="button"
+            class="type-btn active"
+            id="btnTipoUser"
+          >
+            Usuário
+          </button>
+
+          <button
+            type="button"
+            class="type-btn"
+            id="btnTipoAdmin"
+          >
+            Administrador
+          </button>
+
+        </div>
+
+        <!-- LOGIN USUÁRIO -->
+        <form id="formUser" novalidate>
+
+          <div class="form-group">
+
+            <label for="userEmail">
+              E-mail ou Matrícula
+            </label>
+
+            <input
+              type="text"
+              id="userEmail"
+              required
+              placeholder="seu@email.com"
+            />
+
           </div>
-        </div>
-      </div>
-    </main>
-  </section>
 
-  <script src="script.js"></script>
-</body>
+          <div class="form-group">
+
+            <label for="userSenha">
+              Senha
+            </label>
+
+            <input
+              type="password"
+              id="userSenha"
+              required
+              placeholder="******"
+            />
+
+          </div>
+
+          <button
+            type="submit"
+            class="btn-submit"
+          >
+            Entrar no Mural
+          </button>
+
+        </form>
+
+        <!-- LOGIN ADMIN -->
+        <form
+          id="formAdmin"
+          novalidate
+          style="display: none"
+        >
+
+          <div class="form-group">
+
+            <label for="adminUser">
+              Usuário Administrador
+            </label>
+
+            <input
+              type="text"
+              id="adminUser"
+              required
+              placeholder="admin"
+            />
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="adminSenha">
+              Senha de Acesso
+            </label>
+
+            <input
+              type="password"
+              id="adminSenha"
+              required
+              placeholder="******"
+            />
+
+          </div>
+
+          <button
+            type="submit"
+            class="btn-submit btn-admin"
+          >
+            Acessar Painel Admin
+          </button>
+
+        </form>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         MURAL DE ITENS
+    ========================== -->
+    <section id="screenMural" class="screen">
+
+      <header>
+
+        <div class="logo-container">
+
+          <img
+            src="aepLogo.png"
+            alt="Logo da aplicação Achados e Perdidos"
+            onerror="this.src='https://via.placeholder.com/40'"
+          />
+
+          <h1>
+            Achados &amp; Perdidos
+          </h1>
+
+        </div>
+
+        <nav
+          class="main-nav"
+          aria-label="Navegação do mural"
+        >
+
+          <button
+            type="button"
+            class="nav-link"
+            data-action="logout"
+          >
+            Sair
+          </button>
+
+          <button
+            type="button"
+            class="nav-link active"
+            data-action="mural"
+            aria-current="page"
+          >
+            Mural de Itens
+          </button>
+
+          <button
+            type="button"
+            class="nav-link"
+            id="navAdminLink"
+            data-action="admin"
+            style="display: none"
+          >
+            Painel Admin
+          </button>
+
+        </nav>
+
+      </header>
+
+
+      <main>
+
+        <!-- PERFIL -->
+        <div class="user-profile">
+
+          <img
+            src="avatar.jpg"
+            alt="Avatar do usuário"
+            onerror="this.src='https://via.placeholder.com/50'"
+          />
+
+          <div>
+
+            <h3 id="userNameDisplay">
+              Usuário Visitante
+            </h3>
+
+            <p>
+              Consultando itens do sistema
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- PESQUISA -->
+        <div class="search-bar">
+
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Pesquisar por objeto, local ou descrição..."
+          />
+
+        </div>
+
+
+        <!--
+          OS CARDS DOS ITENS SERÃO
+          INSERIDOS AQUI PELO JAVASCRIPT.
+
+          O QR CODE DE CADA ITEM
+          TAMBÉM SERÁ INSERIDO
+          DENTRO DO CARD.
+        -->
+        <div
+          class="items-grid"
+          id="muralGrid"
+        ></div>
+
+      </main>
+
+    </section>
+
+
+    <!-- =========================
+         PAINEL ADMIN
+    ========================== -->
+    <section id="screenAdmin" class="screen">
+
+      <header>
+
+        <div class="logo-container">
+
+          <img
+            src="aepLogo.png"
+            alt="Logo da aplicação Achados e Perdidos"
+            onerror="this.src='https://via.placeholder.com/40'"
+          />
+
+          <h1>
+            Achados &amp; Perdidos
+          </h1>
+
+        </div>
+
+        <nav
+          class="main-nav"
+          aria-label="Navegação do painel administrativo"
+        >
+
+          <button
+            type="button"
+            class="nav-link"
+            data-action="logout"
+          >
+            Sair
+          </button>
+
+          <button
+            type="button"
+            class="nav-link"
+            data-action="mural"
+          >
+            Mural de Itens
+          </button>
+
+          <button
+            type="button"
+            class="nav-link active"
+            aria-current="page"
+          >
+            Painel Admin
+          </button>
+
+        </nav>
+
+      </header>
+
+
+      <main>
+
+        <div class="grid-admin">
+
+
+          <!-- =====================
+               CADASTRO
+          ====================== -->
+          <div class="card">
+
+            <h2>
+              Cadastrar Item
+            </h2>
+
+            <form
+              id="itemForm"
+              novalidate
+            >
+
+              <div class="form-group">
+
+                <label for="titulo">
+                  Título do Objeto
+                </label>
+
+                <input
+                  type="text"
+                  id="titulo"
+                  required
+                  placeholder="Ex: Carteira de Identidade"
+                />
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="status">
+                  Situação
+                </label>
+
+                <select
+                  id="status"
+                  required
+                >
+
+                  <option value="achado">
+                    Achado
+                  </option>
+
+                  <option value="perdido">
+                    Perdido
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="local">
+                  Local
+                </label>
+
+                <input
+                  type="text"
+                  id="local"
+                  required
+                  placeholder="Ex: Auditório"
+                />
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="data">
+                  Data
+                </label>
+
+                <input
+                  type="date"
+                  id="data"
+                  required
+                />
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="desc">
+                  Descrição
+                </label>
+
+                <textarea
+                  id="desc"
+                  rows="3"
+                  placeholder="Detalhes do item..."
+                ></textarea>
+
+              </div>
+
+
+              <!-- IMAGEM -->
+              <div class="form-group">
+
+                <label for="imagem">
+                  Imagem do Item
+                </label>
+
+                <input
+                  type="file"
+                  id="imagem"
+                  accept="image/*"
+                />
+
+              </div>
+
+
+              <button
+                type="submit"
+                class="btn"
+              >
+                Salvar Item
+              </button>
+
+            </form>
+
+          </div>
+
+
+          <!-- =====================
+               TABELA ADMIN
+          ====================== -->
+          <div class="card">
+
+            <h2>
+              Itens Recentemente Cadastrados
+            </h2>
+
+            <div class="table-wrapper">
+
+              <table>
+
+                <thead>
+
+                  <tr>
+
+                    <th>
+                      Título
+                    </th>
+
+                    <th>
+                      Status
+                    </th>
+
+                    <th>
+                      Local
+                    </th>
+
+                    <th>
+                      Data
+                    </th>
+
+                    <th>
+                      Ação
+                    </th>
+
+                  </tr>
+
+                </thead>
+
+                <tbody
+                  id="adminTableBody"
+                ></tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </main>
+
+    </section>
+
+
+    <!--
+      BIBLIOTECA PARA GERAR QR CODE.
+      O JavaScript vai usar QRCode
+      para criar automaticamente
+      um QR Code para cada item.
+    -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+    ></script>
+
+    <!-- SEU JAVASCRIPT -->
+    <script src="script.js"></script>
+
+  </body>
 </html>
